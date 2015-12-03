@@ -1,12 +1,5 @@
 Character c1;
-PImage background;
-PImage breakfast;
-PImage lunch;
-PImage dinner;
-PImage eat;
-PImage emptyStar;
-PImage goldenStar;
-
+PImage background; PImage breakfast; PImage lunch; PImage dinner; PImage eat; PImage emptyStar; PImage goldenStar;
 
 //level 1 - start, 2 - lunch, 3 - dinner, 4 - finished
 int level = 1;
