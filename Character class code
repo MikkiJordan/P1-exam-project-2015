@@ -1,0 +1,66 @@
+class Character{
+  
+ PImage _healthy;
+ PImage _unhealthy;
+ PImage _chewing;
+ PImage _disgusted;
+ PImage _happy;
+ 
+ 
+ int _gender = 0;
+ int healthbar = 20;
+ int healthbarBefore = 0;
+ 
+ //gender = 0 - boy,   gender = 1 - girl.
+  
+  Character(){ 
+    imageMode(CENTER);
+    if(_gender == 0){
+    _healthy = loadImage("HealthyBoy.png"); 
+    _unhealthy = loadImage("NotHealthyBoy.png");  
+    _chewing = loadImage("ChewingBoy.gif");    
+    _disgusted = loadImage("DisgustedBoy.gif");
+    _happy = loadImage("HappyBoy.png");
+    }  if (_gender == 1){  
+    _healthy = loadImage("HealthyGirl.png");    
+    _unhealthy = loadImage("NotHealthyGirl.png");    
+    _chewing = loadImage("ChewingGirl.gif");    
+    _disgusted = loadImage("DisgustedGirl.gif");
+    _happy = loadImage("HappyGirl.png");
+  }
+  }
+  
+  void healthEmotions(){  
+  //Health more than 50, healthy
+  if(healthbar >= 50){
+    image(_healthy,width/2,height/2);
+  }
+    
+  //Health below than 50, unhealthy
+  if(healthbar < 50){
+    image(_unhealthy,width/2,height/2);
+  }
+  }
+     
+  void chew(){
+  //Eat clicked, chew. It should be displayed for a few seconds.
+  //Image has a bit weird size so hard to allign, need to fix that
+  scale(0.35);
+  translate(0,0); 
+  image(_chewing,width/0.70,height/0.70);
+  }
+  
+  void reactions(){
+    //We somehow need to compare healthbar before clicking eat and then after character ate food. Then we show emotion regarding the change in the healthbar.
+    
+  //Food is healthy, happy. It should only be shown for a few seconds
+  if(healthbar >= healthbarBefore){
+    image(_happy,width/2,height/2);
+  }
+  
+  //Food is unhealthy, tongue out. It should only be shown for a few seconds
+  if(healthbar < healthbarBefore){
+    image(_disgusted,width/2,height/2);
+  }
+  }
+}
