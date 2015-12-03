@@ -46,6 +46,8 @@ class Character{
       time = time + 1;
       sec = millis();    
       image(_chewing,350,114);
+  } else{
+    eatClicked = false;
   }
   }
   }
