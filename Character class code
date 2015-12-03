@@ -29,7 +29,7 @@ class Character{
   }
   }
   
-  void healthEmotions(){  
+  void display(){  
   //Health more than 50, healthy
   if(healthbar >= 50){
     image(_healthy,350,114);
