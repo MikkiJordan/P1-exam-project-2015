@@ -1,65 +1,84 @@
-class Character{
+Character c1;
+PImage background;
+PImage breakfast;
+PImage lunch;
+PImage dinner;
+PImage eat;
+PImage emptyStar;
+PImage goldenStar;
+
+
+//level 1 - start, 2 - lunch, 3 - dinner, 4 - finished
+int level = 1;
+//language. 0 - English, 1 - Danish.
+int lang = 1;
+
+boolean eatClicked;
+
+void setup(){
+  size(800,480);
+  emptyStar = loadImage("EmptyStar.png");
+  goldenStar = loadImage("GoldStar.png");
+  c1 = new Character();
   
- PImage _healthy;
- PImage _unhealthy;
- PImage _chewing;
- PImage _disgusted;
- PImage _happy;
+  if(lang == 0){
+  background = loadImage("GameBackground.png");
+  breakfast = loadImage("BreakfastButton.png");
+  lunch = loadImage("LunchButton.png");
+  dinner = loadImage("DinnerButton.png");
+  eat = loadImage("EatButton.png");
+  } else if (lang == 1){
+    background = loadImage("DanishGameBackground.png");
+    breakfast = loadImage("DanishBreakfastButton.png");
+    lunch = loadImage("DanishLunchButton.png");
+    dinner = loadImage("DanishDinnerButton.png");
+    eat = loadImage("DanishEatButton.png");
+  }
+
+}
+
+void draw(){
+  //Game background
+  image(background,0,0);
+  //Levels
+  image(breakfast,width-220,110);
+  image(lunch,width-220,160);
+  image(dinner,width-220,210);
+  //Eat button
+  image(eat,310,20);
+  
+//Display the character
+c1.display();
+c1.chew();
+//c1.reactions();
+  
+  //Amount of golden stars regarding the level. Level 1 = 0 golden stars, level 4 = 4 golden stars.
+  if(level == 1){
+  image(emptyStar,530,110);
+  image(emptyStar,530,160);
+  image(emptyStar,530,210);
+  } else if (level == 2){
+    image(goldenStar,530,110);
+    image(emptyStar,530,160);
+    image(emptyStar,530,210);
+  } else if (level == 3){
+    image(goldenStar,530,110);
+    image(goldenStar,530,160);
+    image(emptyStar,530,210);}
+    else if (level == 4){
+    image(goldenStar,530,110);
+    image(goldenStar,530,160);
+    image(goldenStar,530,210);
+    }
+}
  
- 
- int _gender = 0;
- int healthbar = 20;
- int healthbarBefore = 0;
- 
- //gender = 0 - boy,   gender = 1 - girl.
-  
-  Character(){ 
-    if(_gender == 0){
-    _healthy = loadImage("HealthyBoy.png"); 
-    _unhealthy = loadImage("NotHealthyBoy.png");  
-    _chewing = loadImage("ChewingBoy.gif");    
-    _disgusted = loadImage("DisgustedBoy.gif");
-    _happy = loadImage("HappyBoy.png");
-    }  if (_gender == 1){  
-    _healthy = loadImage("HealthyGirl.png");    
-    _unhealthy = loadImage("NotHealthyGirl.png");    
-    _chewing = loadImage("ChewingGirl.gif");    
-    _disgusted = loadImage("DisgustedGirl.gif");
-    _happy = loadImage("HappyGirl.png");
+//If mouse clicked on eat button, food evaluation should start after that.  
+void mouseClicked(){
+  if(mouseX >= 310 && mouseX <= 513 && mouseY >= 20 && mouseY <= 62){
+    eatClicked = true;
+    c1.time = 0;
+  } else {
+    eatClicked = false;
   }
-  }
-  
-  void display(){  
-  //Health more than 50, healthy
-  if(healthbar >= 50){
-    image(_healthy,350,114);
-  }
-    
-  //Health below than 50, unhealthy
-  if(healthbar < 50){
-    image(_unhealthy,350,114);
-  }
-  }
-     
-  void chew(){
-  //Eat clicked, chew. It should be displayed for a few seconds.
-  //Image has a bit weird size so hard to allign, need to fix that
-  scale(0.35);
-  translate(0,0); 
-  image(_chewing,350,114);
-  }
-  
-  void reactions(){
-    //We somehow need to compare healthbar before clicking eat and then after character ate food. Then we show emotion regarding the change in the healthbar.
-    
-  //Food is healthy, happy. It should only be shown for a few seconds
-  if(healthbar >= healthbarBefore){
-    image(_happy,350,114);
-  }
-  
-  //Food is unhealthy, tongue out. It should only be shown for a few seconds
-  if(healthbar < healthbarBefore){
-    image(_disgusted,350,114);
-  }
-  }
+  println(eatClicked);
 }
