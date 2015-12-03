@@ -1,0 +1,44 @@
+class PauseMenu{
+  
+  PImage _background, _quit, _resume, _howto;
+  boolean howto, quit;
+  
+  PauseMenu(){
+     _background = loadImage("MenuBackground.png");
+    if(lang == 0){
+    _quit = loadImage("QuitButton.png");
+    _resume = loadImage("ResumeButton.png");
+    _howto = loadImage("HowToPlayButton.png");
+    }
+    if (lang == 1){
+    _quit = loadImage("DanishQuitButton.png");
+    _resume = loadImage("DanishResumeButton.png");
+    _howto = loadImage("DanishHowToPlayButton.png");
+      
+  }
+  }
+  
+  void display(){
+    image(_background,0,0);
+   // imageMode(CENTER);
+    image(_resume,265.5, 107.5);
+    image(_howto,265.5, 207.5);
+    image(_quit,265.5, 307.5);
+  }
+  
+  void buttons(){
+    //Resume button
+    if(mouseX >= 265.5 && mouseX <= 534.5 && mouseY >= 107.5 && mouseY <= 172.5){
+      pause = false;
+    }
+    //Howto button
+    if(mouseX >= 265.5 && mouseX <= 534.5 && mouseY >= 207.5 && mouseY <= 272.5){
+      howto = true;
+      println("How to: "+howto);
+    }
+    //Quit button
+    if(mouseX >= 265.5 && mouseX <= 534.5 && mouseY >= 307.5 && mouseY <= 472.5){
+      exit();
+    } 
+}
+}
