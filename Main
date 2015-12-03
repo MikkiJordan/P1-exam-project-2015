@@ -1,0 +1,58 @@
+Character c1;
+PauseMenu p1;
+Kitchen k1;
+
+//level 1 - start, 2 - lunch, 3 - dinner, 4 - finished
+int level = 1;
+//language. 0 - English, 1 - Danish.
+int lang = 0;
+
+boolean eatClicked;
+boolean pause;
+
+void setup() {
+  size(800, 480);
+
+  c1 = new Character();
+  p1 = new PauseMenu();
+  k1 = new Kitchen();
+}
+
+void draw() {
+  if (pause == false) {
+
+    //Display the environment
+    k1.display();
+
+    //Display the character
+    c1.display();
+    c1.chew();
+    //c1.reactions();
+  }
+
+  if (pause == true) {
+    p1.display();
+  }
+}
+
+
+
+void mouseClicked() {
+  if(pause == false){
+  //If mouse clicked on eat button, chewing animation is shown and food evaluation should start after that.  
+  if (mouseX >= 310 && mouseX <= 513 && mouseY >= 20 && mouseY <= 62) {
+    eatClicked = true;
+    println("Eat: "+eatClicked);
+    c1.time = 0;
+  }
+  //Pause button
+  if (mouseX >= 677 && mouseX <= 800 && mouseY >= 373 && mouseY <= 480) {
+    pause = true;
+    println("Pause: "+pause);
+  }
+  }
+  
+  if(pause == true){
+  p1.buttons();
+  }
+}
