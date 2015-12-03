@@ -1,18 +1,12 @@
 class Character{
+
+  PImage _healthy, _unhealthy, _chewing, _disgusted, _happy;
   
- PImage _healthy;
- PImage _unhealthy;
- PImage _chewing;
- PImage _disgusted;
- PImage _happy;
- 
- 
  int _gender = 0;
  int healthbar = 20;
  int healthbarBefore = 0;
  
- int time;
- int sec;
+ int time, sec;
  
  //gender = 0 - boy,   gender = 1 - girl.
   
