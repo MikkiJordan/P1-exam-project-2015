@@ -5,7 +5,7 @@ PImage dinner;
 PImage eat;
 PImage emptyStar;
 PImage goldenStar;
-//level 1 - start, 2 - lunch, 3 - dinner, 4 - finished
+//level 1 - breakfast, 2 - lunch, 3 - dinner, 4 - finished
 int level = 1;
 
 boolean eatClicked;
