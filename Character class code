@@ -1,68 +1,69 @@
-class Character{
+class Character {
 
   PImage _healthy, _unhealthy, _chewing, _disgusted, _happy;
-  
- int _gender = 0;
- int healthbar = 20;
- int healthbarBefore = 0;
- 
- int time, sec;
- 
- //gender = 0 - boy,   gender = 1 - girl.
-  
-  Character(){ 
-    if(_gender == 0){
-    _healthy = loadImage("HealthyBoy.png"); 
-    _unhealthy = loadImage("NotHealthyBoy.png");  
-    _chewing = loadImage("ChewingBoy.gif");    
-    _disgusted = loadImage("DisgustedBoy.gif");
-    _happy = loadImage("HappyBoy.png");
-    }  if (_gender == 1){  
-    _healthy = loadImage("HealthyGirl.png");    
-    _unhealthy = loadImage("NotHealthyGirl.png");    
-    _chewing = loadImage("ChewingGirl.gif");    
-    _disgusted = loadImage("DisgustedGirl.gif");
-    _happy = loadImage("HappyGirl.png");
+
+  int _gender = 0;
+  int healthbar = 20;
+  int healthbarBefore = 0;
+
+  int time, sec;
+
+  //gender = 0 - boy,   gender = 1 - girl.
+
+  Character() { 
+    if (_gender == 0) {
+      _healthy = loadImage("HealthyBoy.png"); 
+      _unhealthy = loadImage("NotHealthyBoy.png");  
+      _chewing = loadImage("ChewingBoy.gif");    
+      _disgusted = loadImage("DisgustedBoy.gif");
+      _happy = loadImage("HappyBoy.png");
+    }  
+    if (_gender == 1) {  
+      _healthy = loadImage("HealthyGirl.png");    
+      _unhealthy = loadImage("NotHealthyGirl.png");    
+      _chewing = loadImage("ChewingGirl.gif");    
+      _disgusted = loadImage("DisgustedGirl.gif");
+      _happy = loadImage("HappyGirl.png");
+    }
   }
+
+  void display() {  
+    //Health more than 50, healthy
+    if (healthbar >= 50) {
+      image(_healthy, 350, 114);
+    }
+
+    //Health below than 50, unhealthy
+    if (healthbar < 50) {
+      image(_unhealthy, 350, 114);
+    }
   }
-  
-  void display(){  
-  //Health more than 50, healthy
-  if(healthbar >= 50){
-    image(_healthy,350,114);
+
+  void chew() {
+    //Eat clicked, chew. It should be displayed for a few seconds.
+    //Image has a bit weird size so hard to allign, need to fix that
+    if (eatClicked==true) {
+      if (millis() >= sec + 1 && time <=100) { 
+        time = time + 1;
+        sec = millis();    
+        image(_chewing, 350, 114);
+      } else {
+        eatClicked = false;
+      }
+    }
   }
-    
-  //Health below than 50, unhealthy
-  if(healthbar < 50){
-    image(_unhealthy,350,114);
-  }
-  }
-     
-  void chew(){
-  //Eat clicked, chew. It should be displayed for a few seconds.
-  //Image has a bit weird size so hard to allign, need to fix that
-  if(eatClicked==true){
-     if (millis() >= sec + 1 && time <=100){ 
-      time = time + 1;
-      sec = millis();    
-      image(_chewing,350,114);
-  } else{
-    eatClicked = false;
-  }
-  }
-  }
-  
-  void reactions(){
+
+  void reactions() {
     //We somehow need to compare healthbar before clicking eat and then after character ate food. Then we show emotion regarding the change in the healthbar.
-    
-  //Food is healthy, happy. It should only be shown for a few seconds
-  if(healthbar >= healthbarBefore){
-    image(_happy,350,114);
-  }
-  
-  //Food is unhealthy, tongue out. It should only be shown for a few seconds
-  if(healthbar < healthbarBefore){
-    image(_disgusted,350,114);
-  }
+
+    //Food is healthy, happy. It should only be shown for a few seconds
+    if (healthbar >= healthbarBefore) {
+      image(_happy, 350, 114);
+    }
+
+    //Food is unhealthy, tongue out. It should only be shown for a few seconds
+    if (healthbar < healthbarBefore) {
+      image(_disgusted, 350, 114);
+    }
   }
 }
