@@ -11,10 +11,12 @@ class Character{
  int healthbar = 20;
  int healthbarBefore = 0;
  
+ int time;
+ int sec;
+ 
  //gender = 0 - boy,   gender = 1 - girl.
   
   Character(){ 
-    imageMode(CENTER);
     if(_gender == 0){
     _healthy = loadImage("HealthyBoy.png"); 
     _unhealthy = loadImage("NotHealthyBoy.png");  
@@ -30,24 +32,28 @@ class Character{
   }
   }
   
-  void healthEmotions(){  
+  void display(){  
   //Health more than 50, healthy
   if(healthbar >= 50){
-    image(_healthy,width/2,height/2);
+    image(_healthy,350,114);
   }
     
   //Health below than 50, unhealthy
   if(healthbar < 50){
-    image(_unhealthy,width/2,height/2);
+    image(_unhealthy,350,114);
   }
   }
      
   void chew(){
   //Eat clicked, chew. It should be displayed for a few seconds.
   //Image has a bit weird size so hard to allign, need to fix that
-  scale(0.35);
-  translate(0,0); 
-  image(_chewing,width/0.70,height/0.70);
+  if(eatClicked==true){
+     if (millis() >= sec + 1 && time <=100){ 
+      time = time + 1;
+      sec = millis();    
+      image(_chewing,350,114);
+  }
+  }
   }
   
   void reactions(){
@@ -55,12 +61,12 @@ class Character{
     
   //Food is healthy, happy. It should only be shown for a few seconds
   if(healthbar >= healthbarBefore){
-    image(_happy,width/2,height/2);
+    image(_happy,350,114);
   }
   
   //Food is unhealthy, tongue out. It should only be shown for a few seconds
   if(healthbar < healthbarBefore){
-    image(_disgusted,width/2,height/2);
+    image(_disgusted,350,114);
   }
   }
 }
