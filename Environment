@@ -1,0 +1,64 @@
+PImage background;
+PImage breakfast;
+PImage lunch;
+PImage dinner;
+PImage eat;
+PImage emptyStar;
+PImage goldenStar;
+//level 1 - start, 2 - lunch, 3 - dinner, 4 - finished
+int level = 1;
+
+boolean eatClicked;
+
+void setup(){
+  size(800,480);
+  background = loadImage("GameBackground.png");
+  breakfast = loadImage("BreakfastButton.png");
+  lunch = loadImage("LunchButton.png");
+  dinner = loadImage("DinnerButton.png");
+  eat = loadImage("EatButton.png");
+  emptyStar = loadImage("EmptyStar.png");
+  goldenStar = loadImage("GoldStar.png");
+ 
+}
+
+void draw(){
+  //Game background
+  image(background,0,0);
+  //Levels
+  image(breakfast,width-220,110);
+  image(lunch,width-220,160);
+  image(dinner,width-220,210);
+  //Eat button
+  image(eat,310,20);
+  
+  //Amount of golden stars regarding the level. Level 1 = 0 golden stars, level 4 = 4 golden stars.
+  if(level == 1){
+  image(emptyStar,530,110);
+  image(emptyStar,530,160);
+  image(emptyStar,530,210);
+  } else if (level == 2){
+    image(goldenStar,530,110);
+    image(emptyStar,530,160);
+    image(emptyStar,530,210);
+  } else if (level == 3){
+    image(goldenStar,530,110);
+    image(goldenStar,530,160);
+    image(emptyStar,530,210);}
+    else if (level == 4){
+    image(goldenStar,530,110);
+    image(goldenStar,530,160);
+    image(goldenStar,530,210);
+    }
+}
+ 
+//If mouse clicked on eat button, food evaluation should start after that.  
+void mouseClicked(){
+  if(mouseX >= 310 && mouseX <= 513 && mouseY >= 20 && mouseY <= 62){
+    eatClicked = true;
+  } else {
+    eatClicked = false;
+  }
+  println(eatClicked);
+}
+  
