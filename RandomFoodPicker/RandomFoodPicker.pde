@@ -1,44 +1,48 @@
-int forcer, UnhealtyPicked, HealthyPicked;
+int UnhealtyPicked, HealthyPicked, UnhealthyAmount, HealthyAmount;
 
 void setup() {
-  size(400, 400);
+  
+  UnhealthyAmount = 4;
+  HealthyAmount = 16;
 
-  for (int i = 0; i < 16; i++ ) {
-    int UnhealtyRandomNumber = int(random(1, 20));
+  for (int i = 0; i < HealthyAmount + UnhealthyAmount; i++ ) {
+    int UnhealtyRandomNumber = int(random(1, UnhealthyAmount + HealthyAmount ));
+   /* for (int k=0; k < 1; k++) {
+         ForcePick++; 
+       
+       if (ForcePick >= 10 && UnhealtyPicked <= 4) {
+       UnhealtyRandomNumber = int(random(1, 4));
+       ForcePick = 0;
+       }
+    }*/
 
-    for (int k=0; k < 2; k++) {
-      forcer+=k; 
+    if (UnhealtyRandomNumber >= UnhealthyAmount + 1)
+      PickHealthy();
 
-      if (forcer == 5 ) {
-        UnhealtyRandomNumber = int(random(1, 4));
-        forcer = 0;
-      }
-
-      if (UnhealtyRandomNumber >= 5)
-        PickHealthy();
-
-      if (UnhealtyRandomNumber <= 4)
-        PickUnHealthy();
-    }
+    if (UnhealtyRandomNumber <= UnhealthyAmount)
+      PickUnHealthy();
   }
 }
 
 void PickHealthy() {
   HealthyPicked++;
-  
-  if (HealthyPicked <= 16)
-  println("One healthy item has been selected");
-  
-  if (HealthyPicked >= 17)
-  println("Nothing was selected");
+
+  if (HealthyPicked <= HealthyAmount)
+    println("One healthy item has been selected");
+
+  if (HealthyPicked >= HealthyAmount + 1 && UnhealtyPicked >= UnhealthyAmount + 1)
+    println("Nothing has been selected");
+
+  if (UnhealtyPicked <= UnhealthyAmount && HealthyPicked >= HealthyAmount + 1 )
+    PickUnHealthy();
 }
 
 void PickUnHealthy() {
-
   UnhealtyPicked++;
-  if (UnhealtyPicked >= 5)
+  if (UnhealtyPicked >= UnhealthyAmount + 1 && HealthyPicked <= UnhealthyAmount)
     PickHealthy();
 
-  if (UnhealtyPicked <= 4)
+  if (UnhealtyPicked <= UnhealthyAmount)
     println("One unhealthy item has been selected");
+  // ForcePick = 0;
 }
