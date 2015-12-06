@@ -3,7 +3,7 @@ int lang;
 int gender;
 MenuPoint m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14;
 
-PImage background, boy, girl, exit, instructions, play, danish, english, dexit, dinstructions, dplay;
+PImage background, boy, girl, exit, instructions, play, danish, english, dexit, dinstructions, dplay, title, dtitle, back, dback;
 
 
 void setup(){ //function to setup everything is only called once
@@ -20,6 +20,10 @@ void setup(){ //function to setup everything is only called once
   dexit = loadImage("DanishExitButton.png");
   dinstructions = loadImage("DanishHowToPlayButton.png");
   dplay = loadImage("DanishPlayButton.png");
+  title = loadImage("Title.png");
+  dtitle = loadImage("DanishTitle.png");
+  back = loadImage("BackButton.png");
+  dback = loadImage("DanishBackButton.png");
   lang =0;
   
   m1 = new MenuPoint(new PVector(width/2-instructions.width/2,height-100), instructions); 
@@ -28,14 +32,14 @@ void setup(){ //function to setup everything is only called once
   m4 = new MenuPoint(new PVector(width-exit.width,height-exit.height),exit); 
   m5 = new MenuPoint(new PVector(width/2-play.width/2,height-250),play); 
   m6 = new MenuPoint(new PVector(0,0), danish);
-  /*m7 = new MenuPoint(new PVector(width/2-title.width/2,10), title);*/
+  m7 = new MenuPoint(new PVector(width/2-title.width/2,10), title);
   m8 = new MenuPoint(new PVector(width/2-dinstructions.width/2,height-100), dinstructions);
   m9 = new MenuPoint(new PVector(width-dexit.width,height-dexit.height),dexit); 
   m10 = new MenuPoint(new PVector(width/2-dplay.width/2,height-250),dplay);
   m11 = new MenuPoint(new PVector(0,0), english);
-  /*m12 = new MenuPoint(new PVector(width/2-dtitle.width/2,10), dtitle);*/
-  m13 = new MenuPoint(new PVector(width-exit.width,height-exit.height),exit);
-  m14 = new MenuPoint(new PVector(width-dexit.width,height-dexit.height),dexit); 
+  m12 = new MenuPoint(new PVector(width/2-dtitle.width/2,10), dtitle);
+  m13 = new MenuPoint(new PVector(width-back.width,height-back.height),back);
+  m14 = new MenuPoint(new PVector(width-dback.width,height-dback.height),dback); 
 }
 
 void draw(){ //function that keeps getting called
@@ -47,7 +51,7 @@ void draw(){ //function that keeps getting called
     m4.drawMenuPoint();
     m5.drawMenuPoint();
     m6.drawMenuPoint();
-    /*m7.drawMenuPoint();*/
+    m7.drawMenuPoint();
   }
   else if (page == 1){
     m2.drawMenuPoint();
@@ -56,7 +60,7 @@ void draw(){ //function that keeps getting called
     m9.drawMenuPoint();
     m10.drawMenuPoint();
     m11.drawMenuPoint();
-    /*m12.drawMenuPoint();*/
+    m12.drawMenuPoint();
   }
   else if (page ==2){
     //how to play
@@ -138,28 +142,6 @@ void mouseReleased(){ //fuction to catch where mouse released
   }
   
   else {}
-/*
-  if(page == 0){ // if on page 0 (menu page) then
-    if (m1.isPositionWithinButton (mouseX,mouseY)){ //if on m1 then start game
-      page = 1; // page 1 game itself
-      lives = 5; // have 5 lives
-      score = 0; //score is 0
-      e.clear(); // clears all enemys
-      shots.clear(); // clears all shots
-     }
-    if (m2.isPositionWithinButton (mouseX,mouseY)){ //if on m2 then
-      page = 2; //switch to instructions
-     }
-    if (m3.isPositionWithinButton (mouseX,mouseY)){ //if on m3 then
-      page = 3; //switch to controles
-     }*/
-    /*if (m4.isPositionWithinButton (mouseX,mouseY)){ //if on m4 then
-      exit(); //exit processing
-     }/*
-  } else{ //else you
-    if (m5.isPositionWithinButton (mouseX,mouseY)){ //if on m5 then
-      page = 0; // back to main menu
-     }
-  }*/
+
 }
   
