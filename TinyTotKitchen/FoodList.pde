@@ -5,6 +5,12 @@ class Foodlist {
   String _Type;
   PImage WrongAnswer = loadImage("WrongChoiceX.png"), CorrectAnswer = loadImage("CorrectChoice.png"), Food;
 
+  String name = "Disgusted";
+  String name2 = "Giggling";
+
+  int SpecialNumber = 1; 
+  int k = 1;
+
   // Contructor
   Foodlist(int xTemp, float yTemp, int FoodIdentificationNumber, String FoodType) {
     _x = xTemp;
@@ -18,9 +24,9 @@ class Foodlist {
 
   // Custom method for drawing the object
   void display() {
-
     image(Food, _x, _y);
   }
+
 
   void checkMouse() {
     if (MousePressed == false) {
@@ -32,25 +38,54 @@ class Foodlist {
     }
   }
 
+  void SomethingNice() {
+
+    if (Yummy == true && health.YouWon == false) {
+      if (_Type == "u")
+        health.Sequence = loadImage(name + Gender + SpecialNumber +".png");
+
+      if (_Type == "h") 
+        health.Sequence = loadImage(name2 + Gender + SpecialNumber +".png");
+
+      image(health.Sequence, 290, 108);
+      if (Yummy == true && FoodEaten <= 6) { 
+        frameRate(6);
+        k++;
+        SpecialNumber++;
+        if (SpecialNumber >= 4)
+          SpecialNumber = 1;
+        if ( k == 5 ) { 
+          SpecialNumber = 1;
+          k = 0;
+          frameRate(30);
+          _x = _originX;
+          _y = _originY;
+          Yummy = false;
+          CheckReaction = false;
+        }
+      }
+    }
+  }
 
   void Answer() {
+    println(_Type);
     // This actually works O.O  
     if (_Type == "u" && StartChewing == true) {
       WrongAnswer.resize(50, 50);
-      if (EatClicked == true && _Type == "u") {
-        health.Player_TotalHealth -= health.Player_DamageTaken;
+      image(WrongAnswer, _x-5, _y-10);
+      if (EatClicked == true && _Type == "u" && health.Player_TotalHealth > 0) {
+        health.Player_TotalHealth -= health.Player_DamageTaken; // can be reformulated so only the value of damageTaken is here
         EatClicked = false;
       }
-      image(WrongAnswer, _x-5, _y-10);
     } 
 
-    if (_Type == "h" && StartChewing == true) {
+    if (_Type == "h" && StartChewing == true && health.Player_TotalHealth < 100) {
       CorrectAnswer.resize(40, 40); // hmmmm
+      image(CorrectAnswer, _x-5, _y-10);
       if (EatClicked == true && _Type == "h") {
         health.Player_TotalHealth += health.Player_DamageTaken;
         EatClicked = false;
       }
-      image(CorrectAnswer, _x-5, _y-10);
     }
   }
 
@@ -60,8 +95,8 @@ class Foodlist {
       if (FoodPlaced == false)
         PlayPlateSound();
       Answer();
-      // Make boolean list
 
+      SomethingNice();
       return true;
     }
     /*

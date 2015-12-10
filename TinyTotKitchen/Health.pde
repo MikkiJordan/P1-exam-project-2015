@@ -1,5 +1,5 @@
 class Health {
-  String PlayerIndicator_HP = "HEALTH";
+  String PlayerIndicator_HP;
   int Player_TotalHealth, Player_DamageTaken = 20, Player_HealthGained;
 
   PImage Sequence;
@@ -8,16 +8,13 @@ class Health {
   int RestartGameTime;
 
   PFont font; 
-  int healthTemp;
+  boolean YouWon;
 
   Health(int Health) {
     Player_TotalHealth = Health;
   }
 
   void HealthShow() {
-    if (lang == "Dan")
-      PlayerIndicator_HP = "Liv";
-
 
     // underlying health bar
     fill(0, 0, 0, 120);
@@ -42,8 +39,17 @@ class Health {
     textFont(font, 20);
 
     textAlign(CORNER); // The text should be in the corner of the positioning 
-    text(PlayerIndicator_HP, width/1.35, 48); // The String PlayerIndicator_HP's data will be implemented and will in addition show the players health next to it, in the given position.
 
+    if (lang == "Dan") {
+      PlayerIndicator_HP = "Liv";
+      text(PlayerIndicator_HP, width/1.25, 48); // The String PlayerIndicator_HP's data will be implemented and will in addition show the players health next to it, in the given position.
+    }
+    if (lang == "Eng") {
+      PlayerIndicator_HP = "HEALTH";
+      text(PlayerIndicator_HP, width/1.35, 48); // The String PlayerIndicator_HP's data will be implemented and will in addition show the players health next to it, in the given position.
+    }
+
+    //    text(PlayerIndicator_HP, width/1.35, 48); // The String PlayerIndicator_HP's data will be implemented and will in addition show the players health next to it, in the given position.
 
     // white text in the health bar with the health given as an integer and percent
     fill(255, 255, 255, 255); 
@@ -58,28 +64,41 @@ class Health {
       Sequence = loadImage("NotHealthy" + Gender + "1.png");
       image(Sequence, 290, 108);
     }
-    if (Player_TotalHealth <= 0) {
-      Sequence = loadImage("Sick" + Gender + "1.png");
-      image(health.Sequence, 290, 108);
-    }
 
-    if (FoodEaten == 6 ) {
+    if (FoodEaten == 6) { // hmmmmm
+      YouWon = true;
+      MakeNewList();
+      YouWon = false;
+      Yummy = false;
+      FoodEaten = 0;
+      kitchen.level++;
 
-      Sequence = loadImage("YouWon" + Gender + number + ".png");
-      image(Sequence, 290, 108);
-      Animation.PlaySequence();
-      kitchen.level = 2;
+      /* if (Yummy == false && CheckReaction == false) {
+       Sequence = loadImage("YouWon" + Gender + number + ".png");
+       image(Sequence, 290, 108);
+       
+       if (YouWon == true) {
+       Animation.PlaySequence();
+       kitchen.level++;
+       FoodEaten = 0;
+       Player_TotalHealth = 60;
+       MakeNewList();
+       YouWon = false;
+       }
+       }*/
     }
 
     // if the players health reaches 0, go to the main menu
     if (Player_TotalHealth <= 0) {
+      Sequence = loadImage("Sick" + Gender + "1.png");
+      image(health.Sequence, 290, 108);
       Player_TotalHealth = 0;
       RestartGameTime++;
       if (RestartGameTime == 100) {
         GenderSelected = false;
         GameStarted = false;
         GamePaused = false;
-        Player_TotalHealth = 100;
+        Player_TotalHealth = 50;
         FoodEaten = 0;
         m3.addTint(255, 255);
         m2.addTint(255, 255);
@@ -93,18 +112,20 @@ class Health {
     strokeWeight(1);
   }
 
-  /*
+
   void LostGainHealth() { // HealthMeasurement don't work proberly
-   if (food._Type == "u" && CheckReaction == true && StartChewing == false) {
-   Sequence = loadImage("Disgusted" + Gender + number +".png");
-   image(Sequence, 290, 108);
-   Animation.PlaySequence();
-   }
-   
-   if (food._Type == "u" && CheckReaction == true && StartChewing == false) { 
-   Sequence = loadImage("Giggling" + Gender + number +".png");
-   image(Sequence, 290, 108);
-   Animation.PlaySequence();
-   }
-   }*/
+    for (Foodlist food : List) { 
+      /*    if (food._Type == "u" &&  CheckReaction == true && StartChewing == false) {
+       Sequence = loadImage("Disgusted" + Gender + number +".png");
+       image(Sequence, 290, 108);
+       Animation.PlaySequence();
+       }
+       
+       if (healthTemp <= Player_TotalHealth && CheckReaction == true && StartChewing == false) { 
+       Sequence = loadImage("Giggling" + Gender + number +".png");
+       image(Sequence, 290, 108);
+       Animation.PlaySequence();
+       }*/
+    }
+  }
 }
