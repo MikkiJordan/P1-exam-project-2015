@@ -31,6 +31,7 @@ class Foodlist {
   void checkMouse() {
     if (MousePressed == false) {
       if (mouseX > _x && mouseX < _x + Food.width && mouseY >  _y  && mouseY < _y + Food.height) {
+
         Selected = true;
       } else {
         Selected = false;
@@ -47,7 +48,7 @@ class Foodlist {
       if (_Type == "h") 
         health.Sequence = loadImage(name2 + Gender + SpecialNumber +".png");
 
-      image(health.Sequence, 290, 108);
+      image(health.Sequence, 290, 120);
       if (Yummy == true && FoodEaten <= 6) { 
         frameRate(6);
         k++;
@@ -61,7 +62,18 @@ class Foodlist {
           _x = _originX;
           _y = _originY;
           Yummy = false;
-          CheckReaction = false;
+          // Creates a new picture of the selected food.
+          int newFood = (int) random(1, 2);
+          if (newFood == 1)
+            _Type = "h";
+
+          if (newFood == 2)
+            _Type = "u";
+
+          Food = loadImage(_Type + (int) random(1, 12) + ".png");
+          image(Food, _x, _y);
+          StartChewing = false;        
+          CheckReaction = true;
         }
       }
     }
@@ -90,7 +102,8 @@ class Foodlist {
   }
 
   boolean CheckCollusion() {
-    if ( _x > plate._x - 40  && _x < plate._x + plate._r/2 && _y > plate._y - 30 && _y < plate._y - plate._r2 + 10 ) {
+   if ( _x > plate._x - 40  && _x < plate._x + plate._r/2 && _y > plate._y - 30 && _y < plate._y - plate._r2 + 10 ) {
+    //    if(mouseX > plate._x - 80 && mouseX < plate._x + plate._r/2 && mouseY > plate._y - plate._r/2 + 40 && mouseY < plate._y +30 ){
       println("Dish is placed on plate 1");
       if (FoodPlaced == false)
         PlayPlateSound();

@@ -10,13 +10,13 @@ int number = 1; // sound picking
 
 String Gender, lang = "Dan";
 
-PImage Background, background, boy, girl, exit, instructions, play, Language, dplay, title, back, newgame, resume, quit, pause, Food;
+PImage Background,GameWon, background, boy, girl, exit, instructions, play, Language, dplay, title, back, newgame, resume, quit, pause, Food, NewBackground;
 
 boolean Selected, MousePressed, StartChewing, CheckReaction, FoodPicked, GameStarted, GamePaused, Instructions, GenderSelected;
 
 int UnhealtyPicked, HealthyPicked, TotalAmount, FoodIndex, i; // re-define "i"
 int UnhealthyAmount = 10, HealthyAmount = 10;
-int ListSpacing = 50, ListxOffset = 40, ListyOffset = 175, ListwideCount = 4, ListhighCount = 5;
+int ListSpacing = 60, ListxOffset = 30, ListyOffset = 160, ListwideCount = 4, ListhighCount = 5;
 
 int FoodNumberPicked = 1;
 String FoodType = "u";
@@ -53,14 +53,17 @@ void setup() {
   boy = loadImage("ChooseBoyButton.png");
   background = loadImage("MenuBackground.png");
 
+  NewBackground = loadImage("Background.png");
+
   kitchen = new KitchenMiscellaneous();
   minim = new Minim(this);
   health = new Health(60);
   Animation = new AnimationSequence();
-  plate = new Plates(360, 305, 80, 20);
-  plate2 = new Plates(360, 342, 100, 20);
-  plate3 = new Plates(470, 305, 80, 20);
-  plate4 = new Plates(470, 342, 100, 20);
+  plate = new Plates(365, 310, 190, -20);
+//    plate = new Plates(410, 332, 140, 45);
+//  plate2 = new Plates(360, 342, 100, 20);
+//  plate3 = new Plates(470, 305, 80, 20);
+//  plate4 = new Plates(470, 342, 100, 20);
   sound = new SoundController();
   Menu = new MenuProperties();
   m2 = new MenuPoint(new PVector(width - boy.width - 25, height/5), boy); 
@@ -83,7 +86,7 @@ void setup() {
         PickUnHealthy();
 
       if (FoodPicked == true) {
-        List[FoodIndex++] = new Foodlist(x*ListSpacing+ListxOffset, y*(ListSpacing*1.15)+ListyOffset, FoodNumberPicked, FoodType);
+        List[FoodIndex++] = new Foodlist(x*ListSpacing+ListxOffset, y*(ListSpacing)+ListyOffset, FoodNumberPicked, FoodType);
         FoodPicked = false;
       }
     }
@@ -129,7 +132,7 @@ void MakeNewList() {
   FoodIndex = 0;
   List = new Foodlist[TotalAmount];
 
-  if (health.YouWon == true) {
+  if (health.gameLost == true) {
     for (int y = 0; y < ListhighCount; y++) {
       for (int x = 0; x < ListwideCount; x++) {
         int UnhealtyRandomNumber = int(random(1, TotalAmount));
@@ -141,7 +144,7 @@ void MakeNewList() {
           PickUnHealthy();
 
         if (FoodPicked == true) {
-          List[FoodIndex++] = new Foodlist(x*ListSpacing+ListxOffset, y*(ListSpacing*1.15)+ListyOffset, FoodNumberPicked, FoodType);
+          List[FoodIndex++] = new Foodlist(x*ListSpacing+ListxOffset, y*(ListSpacing)+ListyOffset, FoodNumberPicked, FoodType);
           FoodPicked = false;
         }
       }
@@ -150,6 +153,13 @@ void MakeNewList() {
 }
 
 void draw() {
+  if (health.gameCompleted == true) {
+    image (background, 0, 0); 
+    GameWon = loadImage("WonGame" + Gender + ".png");
+    image(GameWon, width/2-GameWon.width/2, height/2-GameWon.height/2);
+  }
+
+
   if (GameStarted != true || Gender == null) {
     Menu.MenuSetup(); // Needs to be loaded constantly 
     image (background, 0, 0); 
@@ -162,16 +172,16 @@ void draw() {
     m7.drawMenuPoint();
   }
 
-  if (GenderSelected == true && GameStarted == true) {
-    image (Background, 0, 0); 
+  if (GenderSelected == true && GameStarted == true && health.gameCompleted == false) {
+    image (NewBackground, 0, 0); 
     m12.drawMenuPoint();
 
     kitchen.Show();
     health.HealthShow();
     plate.ShowPlates();
-    plate2.ShowPlates();
-    plate3.ShowPlates();
-    plate4.ShowPlates();
+   //  plate2.ShowPlates();
+   //  plate3.ShowPlates();
+   //  plate4.ShowPlates();
     health.LostGainHealth();
     Chewing();
 
@@ -194,7 +204,7 @@ void draw() {
 void Chewing() {
   if (StartChewing == true && i < 12 && GamePaused != true && FoodEaten <= 5) {
     health.Sequence = loadImage("Chewing" + Gender + health.number+".png");
-    image(health.Sequence, 290, 108);
+    image(health.Sequence, 290, 120);
     Animation.ChewingSequence();
   }
 }
@@ -204,41 +214,41 @@ void mousePressed() {
     for (Foodlist food : List) {
       if (food.CheckCollusion() == true) { // You should only be able to press the "Eat button" when there are food on the plates
 
-        if (mouseX > 320 && mouseX < 320 + kitchen._eat.width  && mouseY > 20 && mouseY < 20 + kitchen._eat.height) {
-          EatClicked = true;
-          StartChewing = true;
-          FoodEaten ++;
-          if (FoodEaten <= 6) {
-            player = minim.loadFile("Eating.wav");
-            player.play();
-          }
+        //  if (mouseX > 320 && mouseX < 320 + kitchen._eat.width  && mouseY > 20 && mouseY < 20 + kitchen._eat.height) {
+        EatClicked = true;
+        StartChewing = true;
+        FoodEaten ++;
+        if (FoodEaten <= 6) {
+          player = minim.loadFile("Eating.wav");
+          player.play();
         }
+
         MousePressed = true;
       }
       // If the the boolean is true we would like the square to have the mouse coordinates
       if (food.Selected == true) {      
-        food._x = 340; 
-        food._y = 280;
-        /*
-        food._x = mouseX - food.Food.width/2; 
-        food._y = mouseY - food.Food.height/2;
-        */
+        food._x = 390; 
+        food._y = 300;
+        
+    //    food._x = mouseX - food.Food.width/2; 
+      //   food._y = mouseY - food.Food.height/2;
+         
       }
     }
   }
 }
 
-/*void mouseDragged() {
- if (GameStarted == true) {
- for (Foodlist food : List) {
- // The square should also have the mouse coordinates when its dragged
- if (food.Selected == true) {
- food._x = mouseX - food.Food.width/2; 
- food._y = mouseY - food.Food.height/2;
- }
- }
- }
- }*/
+void mouseDragged() {
+  if (GameStarted == true) {
+    for (Foodlist food : List) {
+      // The square should also have the mouse coordinates when its dragged
+      if (food.Selected == true) {
+        food._x = mouseX - food.Food.width/2; 
+        food._y = mouseY - food.Food.height/2;
+      }
+    }
+  }
+}
 
 void mouseReleased() {
   if (GameStarted != true || Gender == null || (GamePaused)) 
