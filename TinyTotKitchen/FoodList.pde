@@ -8,18 +8,18 @@ class Foodlist {
   String name = "Disgusted";
   String name2 = "Giggling";
 
-  int SpecialNumber = 1; 
-  int k = 1;
+  int DisgustedGigglingFrame = 1; 
+  int repeats = 1;
 
   // Contructor
-  Foodlist(int xTemp, float yTemp, int FoodIdentificationNumber, String FoodType) {
+  Foodlist(int xTemp, float yTemp, int FoodNumberPicked, String FoodType) {
     _x = xTemp;
     _y = yTemp;
     _originX = _x;
     _originY = _y;
-    _FoodChoice = FoodIdentificationNumber;
     _Type = FoodType;
-    Food = loadImage(_Type + FoodNumberPicked + ".png");
+    _FoodChoice = FoodNumberPicked;
+    Food = loadImage(_Type + _FoodChoice + ".png");
   }
 
   // Custom method for drawing the object
@@ -39,30 +39,35 @@ class Foodlist {
     }
   }
 
-  void SomethingNice() {
 
-    if (Yummy == true && health.YouWon == false) {
+  void FoodReaction() {
+    if (ChewingAnimationFinished == true && health.YouWonYouLost == false) {
       if (_Type == "u")
-        health.Sequence = loadImage(name + Gender + SpecialNumber +".png");
+        health.Sequence = loadImage(name + Gender + DisgustedGigglingFrame +".png");
 
       if (_Type == "h") 
-        health.Sequence = loadImage(name2 + Gender + SpecialNumber +".png");
-
+        health.Sequence = loadImage(name2 + Gender + DisgustedGigglingFrame +".png");
       image(health.Sequence, 290, 120);
-      if (Yummy == true && FoodEaten <= 6) { 
+
+      if (ChewingAnimationFinished == true && FoodEaten <= 6) { 
         frameRate(6);
-        k++;
-        SpecialNumber++;
-        if (SpecialNumber >= 4)
-          SpecialNumber = 1;
-        if ( k == 5 ) { 
-          SpecialNumber = 1;
-          k = 0;
+        repeats++;
+        DisgustedGigglingFrame++;
+        if (DisgustedGigglingFrame >= 4)
+          DisgustedGigglingFrame = 1;
+
+        if (repeats == 5 ) { 
+          DisgustedGigglingFrame = 1;
+          repeats = 0;
           frameRate(30);
+          ChewingAnimationFinished = false;
+
+          StartChewing = false;        
+          CheckReaction = true;
           _x = _originX;
           _y = _originY;
-          Yummy = false;
-          // Creates a new picture of the selected food.
+
+          // Creates a new picture of the selected food.         
           int newFood = (int) random(1, 2);
           if (newFood == 1)
             _Type = "h";
@@ -70,50 +75,53 @@ class Foodlist {
           if (newFood == 2)
             _Type = "u";
 
-          Food = loadImage(_Type + (int) random(1, 12) + ".png");
+          if (_Type == "u")
+            Food = loadImage(_Type + (int) random(1, 13) + ".png");
+          if (_Type == "h")
+            Food = loadImage(_Type + (int) random(1, 49) + ".png");
           image(Food, _x, _y);
-          StartChewing = false;        
-          CheckReaction = true;
         }
       }
     }
   }
 
+
   void Answer() {
     println(_Type);
     // This actually works O.O  
-    if (_Type == "u" && StartChewing == true) {
+    if (_Type == "u" && ChewingAnimationFinished == true) {
       WrongAnswer.resize(50, 50);
       image(WrongAnswer, _x-5, _y-10);
-      if (EatClicked == true && _Type == "u" && health.Player_TotalHealth > 0) {
-        health.Player_TotalHealth -= health.Player_DamageTaken; // can be reformulated so only the value of damageTaken is here
-        EatClicked = false;
+      if (FoodOnPlate == true && _Type == "u" && health.Player_TotalHealth > 0) {
+        health.Player_TotalHealth -= health.Player_DamageTaken; 
+        FoodOnPlate = false;
       }
     } 
 
-    if (_Type == "h" && StartChewing == true && health.Player_TotalHealth < 100) {
+    if (_Type == "h" && ChewingAnimationFinished == true && health.Player_TotalHealth < 100) {
       CorrectAnswer.resize(40, 40); // hmmmm
       image(CorrectAnswer, _x-5, _y-10);
-      if (EatClicked == true && _Type == "h") {
+      if (FoodOnPlate == true && _Type == "h") {
         health.Player_TotalHealth += health.Player_DamageTaken;
-        EatClicked = false;
+        FoodOnPlate = false;
       }
     }
   }
 
+
   boolean CheckCollusion() {
-   if ( _x > plate._x - 40  && _x < plate._x + plate._r/2 && _y > plate._y - 30 && _y < plate._y - plate._r2 + 10 ) {
-    //    if(mouseX > plate._x - 80 && mouseX < plate._x + plate._r/2 && mouseY > plate._y - plate._r/2 + 40 && mouseY < plate._y +30 ){
+    if ( _x > plate._x - 40  && _x < plate._x + plate._r/2 && _y > plate._y - 30 && _y < plate._y - plate._r2 + 10 ) {
+      //    if(mouseX > plate._x - 80 && mouseX < plate._x + plate._r/2 && mouseY > plate._y - plate._r/2 + 40 && mouseY < plate._y +30 ){
       println("Dish is placed on plate 1");
       if (FoodPlaced == false)
         PlayPlateSound();
       Answer();
 
-      SomethingNice();
+      FoodReaction();
       return true;
     }
     /*
-    if (_x > plate2._x - 45 && _x < plate2._x + plate2._r/2 && _y > plate2._y - 30 && _y < plate2._y - plate2._r2 + 10 ) {    
+         if (_x > plate2._x - 45 && _x < plate2._x + plate2._r/2 && _y > plate2._y - 30 && _y < plate2._y - plate2._r2 + 10 ) {    
      println("Dish is placed on plate 2");
      if (FoodPlaced == false)
      PlayPlateSound();

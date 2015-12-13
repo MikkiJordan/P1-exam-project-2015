@@ -12,8 +12,21 @@ class MenuProperties {
     quit = loadImage(lang + "QuitButton.png"); //
     pause = loadImage("PauseButton.png"); //
     Background = loadImage(lang + "GameBackground.png");
+    girl = loadImage(lang+"ChooseGirlButton.png");
+    boy = loadImage(lang+"ChooseBoyButton.png");
+
+    resume.resize(270, 65);
+    back.resize(105, 90);
+    quit.resize(270, 65);
+    pause.resize(125, 110);
+    boy.resize(264, 264);
+    girl.resize(264, 264);
+    instructions.resize(270, 65);
+    title.resize(500, 100);
 
     m1 = new MenuPoint(new PVector(width/2-instructions.width/2, height/1.2), instructions); 
+    m2 = new MenuPoint(new PVector(width - boy.width - 25, height/4), boy); 
+    m3 = new MenuPoint(new PVector(25, height/4), girl);
 
     //   m4 = new MenuPoint(new PVector(width - exit.width, height - exit.height), exit); 
     //   m5 = new MenuPoint(new PVector(width / 2-play.width / 2, height - 250), play); 
@@ -21,7 +34,7 @@ class MenuProperties {
     m7 = new MenuPoint(new PVector(width/2-title.width/2, width/48), title);
     m8 = new MenuPoint(new PVector(width-back.width, height-back.height), back);
     m9 = new MenuPoint(new PVector(width/2-resume.width/2, height - resume.height*6), resume);
- //   m10 = new MenuPoint(new PVector(width-newgame.width, height-newgame.height), newgame);
+    //   m10 = new MenuPoint(new PVector(width-newgame.width, height-newgame.height), newgame);
     m11 = new MenuPoint(new PVector(width/2-quit.width/2, height- quit.height*3), quit);
 
     m12 = new MenuPoint(new PVector(width-pause.width, height-pause.height), pause);
@@ -76,16 +89,16 @@ class MenuProperties {
       if (m9.isPositionWithinButton (mouseX, mouseY)) // Stop watching instructions
         GamePaused = false;
 
-/*      if (m10.isPositionWithinButton(mouseX, mouseY)) {
-        GamePaused = false;
-        Gender = null;
-        GenderSelected = false;
-        GameStarted = false;
-        m2.addTint(255, 255);
-        m3.addTint(255, 255);
-        health.Player_TotalHealth = 60;
-      }
-*/
+      /*      if (m10.isPositionWithinButton(mouseX, mouseY)) {
+       GamePaused = false;
+       Gender = null;
+       GenderSelected = false;
+       GameStarted = false;
+       m2.addTint(255, 255);
+       m3.addTint(255, 255);
+       health.Player_TotalHealth = 60;
+       }
+       */
       if (m11.isPositionWithinButton(mouseX, mouseY))
         exit();
     }

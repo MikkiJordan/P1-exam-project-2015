@@ -22,7 +22,7 @@ class AnimationSequence {
     if ( i >= 12 ) { 
       i = 0;
       StartChewing = false;
-      Yummy = true;
+      ChewingAnimationFinished = true;
       if (StartChewing == false) {
         CheckReaction = true;
         health.number = 1;

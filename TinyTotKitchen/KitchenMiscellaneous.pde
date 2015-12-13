@@ -1,7 +1,7 @@
 class KitchenMiscellaneous {
 
   PImage _background, _breakfast, _lunch, _dinner, _eat, _emptyStar, _goldenStar, _pauseButton;
-  int level = 1;
+  int level = 0;
 
   void Show() {
     _emptyStar = loadImage("EmptyStar.png");
@@ -26,11 +26,11 @@ class KitchenMiscellaneous {
     image(_emptyStar, 530, 160);
     image(_emptyStar, 530, 210);
 
-    if (level == 2 || level == 3 || level == 4 ) {
+    if (level == 1 || level == 2 || level == 3 ) {
       image(_goldenStar, 530, 110);
-      if (level == 3 || level == 4) {
+      if (level == 2 || level == 3) {
         image(_goldenStar, 530, 160);
-        if (level == 4)
+        if (level == 3)
           image(_goldenStar, 530, 210);
       }
     }
