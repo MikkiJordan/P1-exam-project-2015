@@ -1,18 +1,7 @@
 class AnimationSequence {
 
-  void PlaySequence() {
-    frameRate(6);
-    frame++;
-    health.number++;
-    if (health.number >= 4)
-      health.number = 1;
-    if ( frame >= 15 ) { 
-      CheckReaction = false;
-      frame = 0;
-      frameRate(30);
-    }
-  }
-
+  // Resuablility for the chewing sequence
+  
   void ChewingSequence() {
     frameRate(6);
     frame++;
@@ -26,7 +15,6 @@ class AnimationSequence {
       if (StartChewing == false) {
         CheckReaction = true;
         health.number = 1;
-
         frameRate(30);
 
       }

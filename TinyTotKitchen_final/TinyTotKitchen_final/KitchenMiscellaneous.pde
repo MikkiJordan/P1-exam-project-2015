@@ -1,10 +1,11 @@
 class KitchenMiscellaneous {
 
+  // Declaring different variables
   PImage _background, _breakfast, _lunch, _dinner, _eat, _emptyStar, _goldenStar, _pauseButton;
   int level = 0;
 
+  // Different icons for the HUD
   void Show() {
-    // Different icons
     _emptyStar = loadImage("EmptyStar.png");
     _goldenStar = loadImage("GoldStar.png");
     _breakfast = loadImage(lang+"BreakfastButton.png");
@@ -18,11 +19,12 @@ class KitchenMiscellaneous {
     image(_dinner, width-220, 210);
     image(_pauseButton, 677, 373);
 
-    // Stars properties
+    //Star's properties
     image(_emptyStar, 530, 110);
     image(_emptyStar, 530, 160);
     image(_emptyStar, 530, 210);
 
+    // Showing a star for each level completed.
     if (level == 1 || level == 2 || level == 3 ) {
       image(_goldenStar, 530, 110);
       if (level == 2 || level == 3) {
